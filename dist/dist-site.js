@@ -24,11 +24,15 @@ var files, htmlFile, transFile, fileContents,
     child_process = require('child_process');
 
 //Copy all the text files to a dist directory
-//file.deleteFile("./dist-site/");
-file.copyFile("init.js", "./dist-site/init.js");
-file.copyDir("fonts", "./dist-site/fonts", /\w/);
-file.copyFile("../index.html", "./dist-site/index.html");
-file.copyDir("../docs/", "./dist-site/docs/", /\w/);
+file.deleteFile("dist-site/");
+file.copyFile("init.js", "dist-site/init.js");
+file.copyDir("css", "dist-site");
+file.copyDir("img", "dist-site/i");
+file.copyFile("dist-site/i/favicon.png", "dist-site/favicon.png")
+file.deleteFile("dist-site/i/favicon.png");
+file.copyDir("fonts", "dist-site/fonts", /\w/);
+file.copyFile("../index.html", "dist-site/index.html");
+file.copyDir("../docs/", "dist-site/docs/", /\w/);
 
 preContents = file.readFile("pre.html");
 postContents = file.readFile("post.html");
