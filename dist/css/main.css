@@ -134,6 +134,28 @@ a:hover {
     letter-spacing: 3px;
 }
 
+#nav .alert {
+    background-color: #fff5ee;
+
+    background-image: url("i/alert-shadow.png");
+    background-position: right top;
+    background-repeat: repeat-y;
+
+    border: 1px solid #cecece;
+    border-left: none;
+    color: #4D4D4D;
+    font-size: 10px;
+    font-weight: normal;
+    left: 0;
+    margin: 15px 0;
+    padding: 0 20px;
+    position: absolute;
+}
+
+#nav .alert-space {
+    height: 140px;
+}
+
 span.spacer {
     color: #2e87dd;
     margin: 0 3px 0 5px;
