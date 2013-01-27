@@ -1,6 +1,6 @@
 @font-face {
     font-family: Inconsolata;
-    src: url("fonts/Inconsolata.ttf");
+    src: url("fonts/inconsolatalgc.otf");
 }
 
 * {
@@ -34,7 +34,7 @@ body {
 
 pre {
     line-height: 18px;
-    font-size: 13px;
+    font-size: 11px;
     margin: 7px 0 21px;
     padding: 5px 10px;
     overflow: auto;
@@ -96,7 +96,7 @@ a:hover {
     float: left;
     margin: 0;
     padding: 150px 20px 0;
-    font-size: 13px;
+    font-size: 11px;
     text-shadow: 1px 1px #fff;
     position: relative;
     z-index: 1;
@@ -128,7 +128,7 @@ a:hover {
 #nav h1 {
     color: #4d4d4d;
     text-align: center;
-    font-size: 15px;
+    font-size: 12px;
     font-weight: normal;
     text-transform: uppercase;
     letter-spacing: 3px;
@@ -244,7 +244,7 @@ span.icon.fork {
     padding: 0 0 18px 0;
     margin: 0 0 7px 0;
     font-weight: normal;
-    font-size: 21px;
+    font-size: 18px;
     line-height: 24px;
     text-align: center;
     color: #222;
@@ -373,7 +373,7 @@ span.sectionMark {
     padding: 0 0 65px 0;
     margin: 0 0 14px 0;
     font-weight: normal;
-    font-size: 21px;
+    font-size: 18px;
     text-align: center;
     text-transform: uppercase;
     letter-spacing: 2px;
@@ -396,7 +396,7 @@ span.sectionMark {
 
 #content ul.index li {
     width: 100%;
-    font-size: 15px;
+    font-size: 13px;
     color: #333;
     padding: 0 0 7px 0;
 }
@@ -414,7 +414,7 @@ span.sectionMark {
 
 #content #intro p,
 #content #intro h1 {
-    font-size: 19px;
+    font-size: 16px;
     line-height: 28px;
     color: green;
     letter-spacing: 2px;
@@ -460,7 +460,7 @@ span.sectionMark {
     margin: 20px 0 0 220px;
     text-align: center;
     display: block;
-    font-size: 13px;
+    font-size: 11px;
     background-image: url("i/arrow-x.png");
     background-repeat: no-repeat;
     background-position: center top;
