@@ -1,39 +1,39 @@
 <div id="directory" class="section">
-    <h1>How to get started with RequireJS</h1>
+    <h1>Как начать работу с RequireJS</h1>
 
     <ul class="index mono">
         <li class="hbox">
-            <a href="#get">Get RequireJS</a><span class="spacer boxFlex"></span><span class="sect">&sect; 1</span>
+            <a href="#get">Скачайте RequireJS</a><span class="spacer boxFlex"></span><span class="sect">&sect; 1</span>
         </li>
         <li class="hbox">
-            <a href="#add">Add RequireJS</a><span class="spacer boxFlex"></span><span class="sect">&sect; 2</span>
+            <a href="#add">Добавьте RequireJS</a><span class="spacer boxFlex"></span><span class="sect">&sect; 2</span>
         </li>
         <li class="hbox">
-            <a href="#optimize">Optimize</a><span class="spacer boxFlex"></span><span class="sect">&sect; 3</span>
+            <a href="#optimize">Оптимизируйте</a><span class="spacer boxFlex"></span><span class="sect">&sect; 3</span>
         </li>
     </ul>
 
-    <span class="note">Note: If you are using jQuery, there is a <a href="jquery.md">targeted jQuery tutorial</a></span>
+    <span class="note">Примечание: Если вы используете jQuery, то вам пригодится <a href="jquery.md">специальное jQuery руководство</a></span>
 </div>
 
 <div class="section">
 <h2>
-    <a name="get">Get RequireJS</a>
+    <a name="get">Скачайте RequireJS</a>
     <span class="sectionMark">&sect; 1</span>
 </h2>
 
-<p>Go to the <a href="download.md">download</a> page and get the file.</p>
+<p>Перейдите на страницу <a href="download.md">загрузки</a> и скачайте файл.</p>
 </div>
 
 <div class="section">
 <h2>
-    <a name="add">Add RequireJS</a>
+    <a name="add">Добавьте RequireJS</a>
     <span class="sectionMark">&sect; 2</span>
 </h2>
 
-<span class="note">Note: For jQuery-specific advice, see the <a href="jquery.html">jQuery integration page</a></span>
+<span class="note">Примечание: При использовании совместно с jQuery читайте рекомендации на <a href="jquery.html">странице о интеграции с jQuery</a></span>
 
-<p>This setup assumes you keep all your JavaScript files in a "scripts" directory in your project. For example, if you have a project that has an project.html page, with some scripts, the directory layout might look like so:</p>
+<p>Предположим, что ваш проект содержит страницу project.html, а все необходимые JavaScript файлы хранятся в папке "scripts". Структура такого проекта может выглядеть как-нибудь так:</p>
 
 <ul>
     <li>project-directory/
@@ -50,7 +50,7 @@
     </ul></li>
 </ul>
 
-<p>Add require.js to the scripts directory, so it looks like so:</p>
+<p>Добавим require.js в папку со скриптами. Теперь она выглядит так:</p>
 
 <ul>
     <li>project-directory/
@@ -68,42 +68,42 @@
     </ul></li>
 </ul>
 
-<p>To take full advantage of the optimization tool, it is suggested that you keep all inline script out of the HTML, and only reference require.js with a require call like so to load your script:</p>
+<p>Чтобы воспользоваться всеми преимуществами утилиты оптимизации, предположим, что весь скрипт вынесен из HTML в файл, а код содержит только ссылку на require.js, предоставляющую функцию require(), вызов которой загрузит ваш скрипт:</p>
 
 <pre><code>&lt;!DOCTYPE html&gt;
 &lt;html&gt;
     &lt;head&gt;
-        &lt;title&gt;My Sample Project&lt;/title&gt;
-        &lt;!-- data-main attribute tells require.js to load
-             scripts/main.js after require.js loads. --&gt;
+        &lt;title&gt;Мой пример проекта&lt;/title&gt;
+        &lt;!-- атрибут data-main сообщает require.js, что необходимо загрузить
+             scripts/main.js после того, как будет загружен сам require.js --&gt;
         &lt;script data-main="scripts/main" src="scripts/require.js"&gt;&lt;/script&gt;
     &lt;/head&gt;
     &lt;body&gt;
-        &lt;h1&gt;My Sample Project&lt;/h1&gt;
+        &lt;h1&gt;Мой пример проекта&lt;/h1&gt;
     &lt;/body&gt;
 &lt;/html&gt;
 </code></pre>
 
-<p>Inside of main.js, you can use require() to load any other scripts you need to run:</p>
+<p>Внутри файла main.js вы можете использовать функцию require() для того, чтобы загрузить любые другие скрипты, которые необходимо выполнить:</p>
 
 <pre><code>require(["helper/util"], function(util) {
-    //This function is called when scripts/helper/util.js is loaded.
-    //If util.js calls define(), then this function is not fired until
-    //util's dependencies have loaded, and the util argument will hold
-    //the module value for "helper/util".
+    //Эта функция вызовется, когда файл scripts/helper/util.js будет загружен.
+    //Если в util.js содержится вызов define(), то эта функция не будет вызвана до тех пор, пока
+    //не загрузятся все зависимости util.js указанные в define() и аргумент util не будет содержать
+    //значение модуля "helper/util".
 });
 </code></pre>
 
-<p>That will load the helper/util.js script. To get full advantage of RequireJS,
-see the <a href="api.html">API docs</a> to learn more about defining and using
-modules.</p>
+<p>Этот код загрузит скрипт helper/util.js. Чтобы узнать все преимущества RequireJS
+изучайте <a href="api.html">API документацию</a>, где вы узнаете больше про объявление и использование
+модулей.</p>
 </div>
 
 <div class="section">
 <h2>
-    <a name="optimize">Optimize</a>
+    <a name="optimize">Оптимизируйте</a>
     <span class="sectionMark">&sect; 3</span>
 </h2>
 
-<p>Once you are finished doing development and want to deploy your code for your end users, you can use the <a href="optimization.md">optimizer</a> to combine the JavaScript files together and minify it. In the example above, it can combine main.js and helper/util.js into one file and minify the result.</p>
+<p>Когда вы закончите разработку и захотите разместить код для конечных пользователей, вы можете воспльзоваться <a href="optimization.md">оптимизатором</a> для объединения и сжатия JavaScript файлов. В приведённом выше примере, он может объединить main.js и helper/util.js в один файл и ужать его.</p>
 </div>
