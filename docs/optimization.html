@@ -16,7 +16,8 @@
 <li class="hbox"><a href="#hasjs">Integration with has.js</a><span class="spacer boxFlex"></span><span class="sect">&sect; 12</span></li>
 <li class="hbox"><a href="#sourcemaps">Source maps</a><span class="spacer boxFlex"></span><span class="sect">&sect; 13</span></li>
 <li class="hbox"><a href="#options">All configuration options</a><span class="spacer boxFlex"></span><span class="sect">&sect; 14</span></li>
-<li class="hbox"><a href="#pitfalls">Common pitfalls</a><span class="spacer boxFlex"></span><span class="sect">&sect; 15</span></li>
+<li class="hbox"><a href="#deployment">Deployment techniques</a><span class="spacer boxFlex"></span><span class="sect">&sect; 15</span></li>
+<li class="hbox"><a href="#pitfalls">Common pitfalls</a><span class="spacer boxFlex"></span><span class="sect">&sect; 16</span></li>
 </ul>
 
 <p>RequireJS has an optimization tool that does the following</p>
@@ -70,18 +71,25 @@ require(mods);</code></pre>
 
 <p>1) You can download the tool on <a href="download.html#rjs">the download page</a>.</p>
 
-<p>2) If you are using Node with NPM, you can install r.js as part of the "requirejs" package in NPM:</p>
+<p>2) If you are using Node with NPM, you can install r.js globally as part of the "requirejs" package in NPM:</p>
 
-<pre><code>&gt; npm install requirejs
+<pre><code>&gt; npm install -g requirejs
 &gt; r.js -o app.build.js
 </code></pre>
 
-<p>That will work for a project based in the directory in which "npm install" is run. You can also install it globally via the -g option to npm:</p>
+<p>If on Windows, you may need to type <code>r.js.cmd</code> instead of <code>r.js</code>. Or, you can
+    use <a href="http://www.microsoft.com/resources/documentation/windows/xp/all/proddocs/en-us/doskey.mspx?mfr=true">DOSKEY</a>:</p>
 
-<pre><code>&gt; npm install -g requirejs
+<pre><code>DOSKEY r.js=r.js.cmd $*</code></pre>
+
+<p>If you want to install requirejs locally in a project as an npm package, instead of globally:</p>
+
+<pre><code>&gt; npm install requirejs
 </code></pre>
 
-<p>If you install the requirejs npm package, you can also <a href="node.html#optimizer">use the optimizer via a function call</a> inside a node program.</p>
+<p>With this local install, you can run the optimizer by running the <code>r.js</code> or <code>r.js.cmd</code> file found in the project's <code>node_modules/.bin</code> directory.
+
+<p>With the local install, you can also <a href="node.html#optimizer">use the optimizer via a function call</a> inside a node program.</p>
 
 <p>The rest of this page assumes that r.js is just downloaded manually from the download page. It is normally the clearest, most portable way to use the optimizer.</p>
 
@@ -341,7 +349,7 @@ require(['jquery'], function ($) {
 <pre><code>node ../../r.js -o cssIn=main.css out=main-built.css
 </code></pre>
 
-<p>This will create a file called <strong>appdirectory/css/main-build.css</strong> that will include the contents of common.js, have the url() paths properly adjusted, and have comments removed.</p>
+<p>This will create a file called <strong>appdirectory/css/main-build.css</strong> that will include the contents of main.css, have the url() paths properly adjusted, and have comments removed.</p>
 
 <p>See the notes for the <a href="#onejs">Optimizing one JavaScript file</a> about avoiding saving optimized files in your pristine source tree. It is only done here to make the example simpler.</p>
 
@@ -400,7 +408,7 @@ require(['jquery'], function ($) {
     <li>Normally each run of a whole project optimization will delete the output build directory specified by <strong>dir</strong> for cleanliness. Some build options, like <strong>onBuildWrite</strong>, will modify the output directory in a way that is hazardous to do twice over the same files. However, if you are doing simple builds with no extra file transforms besides build layer minification, then you can set <strong>keepBuildDir</strong> to <code>true</code> to keep the build directory between runs. Then, only files that have changed between build runs will be copied.</li>
 </ul>
 
-<p>As of version 2.1.2, there are some speed shortcuts the optimizer will take by default if <strong>optimize</strong> is set to <code>"none"</code>. However, if you are using <code>"none"</code> for <strong>optimize</strong> and you are planning to minify the built files after the optimizer runs, then you should turn set <strong>normalizeDirDefines</strong> to <code>true</code> so that define() calls are normalized correctly to withstand minification. If you are doing minification via the <strong>optimize</strong> option, then you do not need to worry about setting this option.</p>
+<p>As of version 2.1.2, there are some speed shortcuts the optimizer will take by default if <strong>optimize</strong> is set to <code>"none"</code>. However, if you are using <code>"none"</code> for <strong>optimize</strong> and you are planning to minify the built files after the optimizer runs, then you should turn set <strong>normalizeDirDefines</strong> to <code>"all"</code> so that define() calls are normalized correctly to withstand minification. If you are doing minification via the <strong>optimize</strong> option, then you do not need to worry about setting this option.</p>
 
 </div>
 
@@ -452,7 +460,7 @@ if (true) {
 <div class="section">
 <h2><a href="#sourcemaps" name="sourcemaps">Source maps</a><span class="sectionMark">&sect; 13</span></h2>
 
-<p>Version 2.1.2 and higher have experimental support for <a href="http://www.html5rocks.com/en/tutorials/developertools/sourcemaps/">source maps</a>. It only works for mapping minified code to unminified code and only when <strong>optimize</strong> is set to <code>"uglify2"</code> or <code>"closure"</code> (closure only available when running under Java with Rhino). The unminified files will show up in the developer tools with a ".js.src" file extension.</p>
+<p>Version 2.1.6 and higher have experimental support for <a href="http://www.html5rocks.com/en/tutorials/developertools/sourcemaps/">source maps</a>. It works for mapping minified, bundled code to unminified, separate modules and only when <strong>optimize</strong> is set to <code>"uglify2"</code>. optimize set to <code>"closure"</code> allows only mapping minified, bundled code to unminified bundled code (closure only available when running under Java with Rhino). The unminified files will show up in the developer tools with a ".src.js" file extension.</p>
 
 <p>To enable the source map generation, set <strong>generateSourceMaps</strong> to <code>true</code>. Since the minifier needs to have full control over the minified file to generate the source map, the <strong>preserveLicenseComments</strong> should be explicitly set to <code>false</code>. <a href="errors.html#sourcemapcomments">There is is a way to get some license comments in the minified source though</a>.</p>
 
@@ -467,7 +475,14 @@ if (true) {
 </div>
 
 <div class="section">
-<h2><a href="#pitfalls" name="pitfalls">Common pitfalls</a><span class="sectionMark">&sect; 15</span></h2>
+<h2><a href="#deployment" name="deployment">Deployment techniques</a><span class="sectionMark">&sect; 15</span></h2>
+
+<p>The r.js optimizer is designed to offer some primitives that can be used for different deployment scenarios by adding other code on top of it. See the <a href="https://github.com/jrburke/r.js/wiki/Deployment-Techniques">deployment techniques wiki page</a> for ideas on how to use the optimizer in that fashion.</p>
+
+</div>
+
+<div class="section">
+<h2><a href="#pitfalls" name="pitfalls">Common pitfalls</a><span class="sectionMark">&sect; 16</span></h2>
 
 <p>If you are having trouble with the examples below, here are some common pitfalls that might be the source of the problem:</p>
 
