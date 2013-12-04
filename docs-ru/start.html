@@ -1,0 +1,109 @@
+<div id="directory" class="section">
+    <h1>Как начать работу с RequireJS</h1>
+
+    <ul class="index mono">
+        <li class="hbox">
+            <a href="#get">Скачайте RequireJS</a><span class="spacer boxFlex"></span><span class="sect">&sect; 1</span>
+        </li>
+        <li class="hbox">
+            <a href="#add">Добавьте RequireJS</a><span class="spacer boxFlex"></span><span class="sect">&sect; 2</span>
+        </li>
+        <li class="hbox">
+            <a href="#optimize">Оптимизируйте</a><span class="spacer boxFlex"></span><span class="sect">&sect; 3</span>
+        </li>
+    </ul>
+
+    <span class="note">Примечание: Если вы используете jQuery, то вам пригодится <a href="jquery.md">специальное jQuery руководство</a></span>
+</div>
+
+<div class="section">
+<h2>
+    <a name="get">Скачайте RequireJS</a>
+    <span class="sectionMark">&sect; 1</span>
+</h2>
+
+<p>Перейдите на страницу <a href="download.md">загрузки</a> и скачайте файл.</p>
+</div>
+
+<div class="section">
+<h2>
+    <a name="add">Добавьте RequireJS</a>
+    <span class="sectionMark">&sect; 2</span>
+</h2>
+
+<span class="note">Примечание: При использовании совместно с jQuery читайте рекомендации на <a href="jquery.html">странице о интеграции с jQuery</a></span>
+
+<p>Предположим, что ваш проект содержит страницу project.html, а все необходимые JavaScript файлы хранятся в папке "scripts". Структура такого проекта может выглядеть как-нибудь так:</p>
+
+<ul>
+    <li>project-directory/
+    <ul>
+        <li>project.html</li>
+        <li>scripts/
+        <ul>
+            <li>main.js</li>
+            <li>helper/
+            <ul>
+                <li>util.js</li>
+            </ul></li>
+        </ul></li>
+    </ul></li>
+</ul>
+
+<p>Добавим require.js в папку со скриптами. Теперь она выглядит так:</p>
+
+<ul>
+    <li>project-directory/
+    <ul>
+        <li>project.html</li>
+        <li>scripts/
+        <ul>
+            <li>main.js</li>
+            <li>require.js</li>
+            <li>helper/
+            <ul>
+                <li>util.js</li>
+            </ul></li>
+        </ul></li>
+    </ul></li>
+</ul>
+
+<p>Чтобы воспользоваться всеми преимуществами утилиты оптимизации, предположим, что весь скрипт вынесен из HTML в файл, а код содержит только ссылку на require.js, предоставляющую функцию require(), вызов которой загрузит ваш скрипт:</p>
+
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;Мой пример проекта&lt;/title&gt;
+        &lt;!-- атрибут data-main сообщает require.js, что необходимо загрузить
+             scripts/main.js после того, как будет загружен сам require.js --&gt;
+        &lt;script data-main="scripts/main" src="scripts/require.js"&gt;&lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;h1&gt;Мой пример проекта&lt;/h1&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>Внутри файла main.js вы можете использовать функцию require() для того, чтобы загрузить любые другие скрипты, которые необходимо выполнить:</p>
+
+<pre><code>require(["helper/util"], function(util) {
+    //Эта функция вызовется, когда файл scripts/helper/util.js будет загружен.
+    //Если в util.js содержится вызов define(), то эта функция не будет вызвана до тех пор, пока
+    //не загрузятся все зависимости util.js указанные в define() и аргумент util не будет содержать
+    //значение модуля "helper/util".
+});
+</code></pre>
+
+<p>Этот код загрузит скрипт helper/util.js. Чтобы узнать все преимущества RequireJS
+изучайте <a href="api.html">API документацию</a>, где вы узнаете больше про объявление и использование
+модулей.</p>
+</div>
+
+<div class="section">
+<h2>
+    <a name="optimize">Оптимизируйте</a>
+    <span class="sectionMark">&sect; 3</span>
+</h2>
+
+<p>Когда вы закончите разработку и захотите разместить код для конечных пользователей, вы можете воспльзоваться <a href="optimization.md">оптимизатором</a> для объединения и сжатия JavaScript файлов. В приведённом выше примере, он может объединить main.js и helper/util.js в один файл и ужать его.</p>
+</div>

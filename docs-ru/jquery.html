@@ -1,0 +1,171 @@
+<div id="directory" class="section">
+<h1>Как использовать RequireJS с jQuery</h1>
+<ul class="index mono">
+    <li class="hbox">
+        <a href="#get">Получение RequireJS</a><span class="spacer boxFlex"></span><span class="sect">&sect; 1</span>
+    </li>
+    <li class="hbox">
+        <a href="#setup">Создайте свою HTML страницу</a><span class="spacer boxFlex"></span><span class="sect">&sect; 2</span>
+    </li>
+    <li class="hbox">
+        <a href="#optimize">Почувствуйте жажду скорости</a><span class="spacer boxFlex"></span><span class="sect">&sect; 3</span>
+    </li>
+    <li class="hbox">
+        <a href="#advanced">Дополнительные возможности использования</a><span class="spacer boxFlex"></span><span class="sect">&sect; 4</span>
+    </li>
+</ul>
+<p>Когда проект достигает определённого размера, управление модулями скриптов проекта становится сложным. Вы должны быть уверены, что скрипты указаны в правильном порядке и вы начинаете серьёзно задумываться об объединении скриптов в один для развертывания, чтобы загрузка скриптов происходила одним или небольшим количеством запросов.</p>
+
+<p>Также вы можете загружать код на лету, после загрузки страницы.</p>
+
+
+<p>RequireJS поможет вам управлять модулями скриптов, загружать их в правильном порядке и может потом легко скомбинировать скрипты через <a href="optimization.md">оптимизатор</a> RequireJS без необходимости изменять разметку. Это также даёт вам возможность загружать скрипты после того, как страница уже загружена, что позволяет разложить загружаемый объём с течением времени. </p>
+
+<p>RequireJS имеет модульную систему, которая позволяет определять модули с ограниченной областью видимости, но из этого не следует, что система даёт преимущества управления зависимостями и оптимизации времени сборки. Со временем, если вы начинаете создавать более модульный код, который дожен быть повторно используемым во многих местах, модуль формата RequireJS позволяет легко написать инкапсулированный код, который может быть загружен на лету. Он может расти вместе с вами, особенно если вы захотите включить интернационализацию (i18n) строковых ресурсов для локализации вашего проекта на других языках или загрузить некоторые HTML строки и убедиться, что эти строки доступны перед выполнением кода или даже использовать JSONP сервисами в качестве зависимостей.</p>
+
+</div>
+
+<div class="section">
+<h2>
+<a name="get">Получение RequireJS</a>
+<span class="sectionMark">&sect; 1</span>
+</h2>
+
+<p>Первые шаги для RequireJS:</p>
+<ul>
+    <li><a href="download.html#samplejquery">Скачать демонстрационный проект</a>.</li>
+</ul>
+
+<p>Этот демонстрационный проект использует объединённый файл jQuery + RequireJS. Если вы предпочитаете не связывать jQuery с RequireJS, в<a href="https://github.com/jrburke/require-jquery">README демонстрационного проекта</a> есть альтернативный путь использовать jQuery с RequireJS, но это требует рассмотрения большего количества крайних случаев.</p>
+
+</div>
+
+<div class="section">
+<h2>
+<a name="setup">Создайте свою HTML страницу</a>
+<span class="sectionMark">&sect; 2</span>
+</h2>
+
+<p>Образец HTML страницы будет выглядеть следующим образом (если вы положите все JS-файлы в подкаталоге "script"):</p>
+
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;Образец страницы jQuery+RequireJS&lt;/title&gt;
+        &lt;script data-main="scripts/main" src="scripts/require-jquery.js"&gt;&lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;h1&gt;образец страницы jQuery+RequireJS&lt;/h1&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>Атрибут data-main в теге script указывает RequireJS загрузить файл scripts/main.js. RequireJS загрузит любую зависимость, которая передаётся в require() без ".js" файла из той директории, которая используется в data-main. Если вам удобнее указывать полный путь, можете сделать следующее:</p>
+
+<pre><code>&lt;script data-main="scripts/main.js" src="scripts/require-jquery.js"&gt;&lt;/script&gt;
+</code></pre>
+
+<p>Что находится в main.js? Вызов require() загружает все скрипты, которые вам нужны и выполняет любые действия для инициализации на этой странице. Это образец скрипта main.js, который загружает два плагина: jquery.alpha.js и jquery.beta.js (имена не реальных плагинов, просто пример). Плагины должны быть в том же каталоге, где и require-jquery.js:</p>
+
+<p>main.js:</p>
+
+<pre><code>require(["jquery", "jquery.alpha", "jquery.beta"], function($) {
+    //плагины jquery.alpha.js и jquery.beta.js были загружены.
+    $(function() {
+        $('body').alpha().beta();
+    });
+});
+</code></pre>
+
+<p>В вызове require(), "jquery" указана как зависимость. Файл require-jquery.js имеет специальный код для регистрации jQuery как модуля RequireJS и так как он зарегистрирован в качестве модуля, вы можете получить дескриптор этого модуля как первый агрумент функции обратного вызова, переданного в require. В вышеприведённом примере, $ используется для ссылки на модуль jQuery.</p>
+
+<p>Так как jquery.alpha и jquery.beta - просто плагины, расширяющие jQuery, они не возвращают модули, на которые можно ссылаться в качестве аргументов функции.</p>
+
+</div>
+
+<div class="section">
+<h2>
+<a name="optimize">Почувствуйте жажду скорости</a>
+<span class="sectionMark">&sect; 3</span>
+</h2>
+
+<p>Теперь ваша страница подготовлена для очень лёгкой оптимизации с помощью <a href="optimization.html">оптимизатора</a>.</p>
+
+<p>Если вы загрузили пример проекта jQuery, то оптимизатор, который является частью исходного кода RequireJS, уже включён в проект.</p>
+
+<p>Если вы не используете образец проект jQuery, получите оптимизатор, загрузив файл <a href="download.html#rjs">r.js file</a> и поместив его в любом месте вне зоны разработки.</p>
+
+<p>В целях этого примера, исходный код RequireJS размещается по соседству с папкой <strong>webapp</strong>, которая содержит HTML страницу и папку scripts, в которой размещаются все скрипты. Полная структура папки:</p>
+
+<ul>
+<li>r.js  (файл, содержащий оптимизатор)</li>
+<li>webapp/app.html</li>
+<li>webapp/scripts/main.js</li>
+<li>webapp/scripts/require-jquery.js</li>
+<li>webapp/scripts/jquery.alpha.js</li>
+<li>webapp/scripts/jquery.beta.js</li>
+</ul>
+
+<p>Then, in the scripts directory that has require-jquery.js and main.js, create a file called app.build.js with the following contents:</p>
+Затем, в папке scripts, которая содержит require-jquery.js и main.js, создайте файл app.build.js со следующим содержанием:
+
+<pre><code>({
+    appDir: "../",
+    baseUrl: "scripts",
+    dir: "../../webapp-build",
+    //Закомментируйте строку optimize, если хотите
+    //минимизировать код с помощью UglifyJS.
+    optimize: "none",
+
+    paths: {
+        "jquery": "require-jquery"
+    },
+
+    modules: [
+        {
+            name: "main",
+            exclude: ["jquery"]
+        }
+    ]
+})
+</code></pre>
+
+<p>Чтобы использовать оптимизатор, вам нужно установить <a href="http://nodejs.org">Node</a> или Java 6. Эти инструкции предполагают, что используется Node. Смотрите <a href="optimization.html">страницу Оптимизация</a> для дальнейших инструкций.</p>
+
+<p>Чтобы начать сборку, перейдите в папку <strong>webapp/scripts</strong> и выполните следующую команду:</p>
+
+<pre><code>node ../../r.js -o app.build.js
+</code></pre>
+
+<p>Теперь, в папке webapp-build в main.js будет встроено содержимое main.js, jquery.alpha.js и jquery.beta.js. Если вы потом загрузите файл app.html из папки webapp-build, вы не должны увидеть сетевые запросы jquery.alpha.js и jquery.beta.js.</p>
+
+</div>
+
+
+<div class="section">
+<h2>
+<a name="advanced">Дополнительные возможности использования</a>
+<span class="sectionMark">&sect; 4</span>
+</h2>
+
+<p>Описанные выше действия позволят легко начать модульную разработку с jQuery, особено если вы используете плагины jQuery, которые предполагают, что jQuery уже загружен на странице. Компромисс с вышеописанным подходом использует комбинированный файл RequireJS и jQuery.</p>
+
+<p>В идеале, вы не должны были включать jQuery в RequireJS, а просто использовать RequireJS для загрузки jQuery по требованию. Тем не менее, скрипты по умолчанию можно загрузить RequireJS по порядку и это работает не очень хорошо с плагинами jQuery.</p>
+
+<p>Некоторые параметры:</p>
+
+<ul>
+    <li>Используйте <a href="api.html#config-shim">shim config</a> чтобы уточнить зависимости плагинов так, чтобы jQuery загружалась до загрузки плагинов</li>
+    <li>Оберните плагины в вызов define().</li>    
+</ul>
+
+<p>В идеале все jQuery плагины, которые вы используете, должны опционально вызывать define() для регистрации в качестве модуля. Некоторые из используемых плагинов уже вызывают define() для регистрации в качестве AMD модуля. Если они этого не делают, вы можете сделать это самостоятельно:</p>
+
+<pre><code>define(['jquery'], function ($) {
+    //Plugin code goes here.
+});
+</code></pre>
+
+<p>В дополнение, вы можете попросить автора плагина добавить опциональный вызов define() в его код. На <a href="https://github.com/umdjs/umd">umdjs project</a> есть некоторые ресурсы и примеры, которые могут в этом помочь. </p>
+
+</div>
