@@ -2,5 +2,16 @@
     "volo": {
         "url": "https://raw.github.com/jrburke/requirejs/{version}/require.js"
     },
-    "main": "require.js"
+    "main": "require.js",
+    "name": "requirejs-ru",
+    "description": "a javascript module loader",
+    "version": "0.0.1",
+    "license": "new BSD or MIT",
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/TuiKiken/requirejs-russian.git"
+    },
+    "bugs": {
+        "url": "https://github.com/TuiKiken/requirejs-russian/issues"
+    }
 }
