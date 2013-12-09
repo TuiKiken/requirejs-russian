@@ -32,6 +32,7 @@ file.copyFile("dist-site/i/favicon.png", "dist-site/favicon.png");
 file.deleteFile("dist-site/i/favicon.png");
 file.copyDir("fonts", "dist-site/fonts", /\w/);
 file.copyFile("../index-ru.html", "dist-site/index.html");
+file.copyDir("../docs/", "dist-site/docs/", /\w/);
 file.copyDir("../docs-ru/", "dist-site/docs/", /\w/);
 
 preContents = file.readFile("pre-ru.html");
