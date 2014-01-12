@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>RequireJS in Node</title>
+    <title>RequireJS в Node</title>
 
     <meta charset="utf-8">
 
@@ -180,17 +180,18 @@
     </div>
 
     <div id="content"><div id="directory" class="section">
-<h1>RequireJS in Node</h1>
+<h1>RequireJS в Node</h1>
 
     <ul class="index mono">
         <li class="hbox">
-            <a href="#1">Doesn't Node already have a module loader?</a><span class="spacer boxFlex"></span><span class="sect">&sect; 1</span>
+            <a href="#1">Node уже содержит загрузчик модулей?</a><span class="spacer boxFlex"></span><span class="sect">&sect; 1</span>            
         </li>
         <li class="hbox">
-            <a href="#2">Can I use server modules written in the CommonJS module format?</a><span class="spacer boxFlex"></span><span class="sect">&sect; 2</span>
+            <a href="#2">Могу ли я использовать серверные модули, написанные<br>
+            в формате CommonJS?</a><span class="spacer boxFlex"></span><span class="sect">&sect; 2</span>
         </li>
         <li class="hbox">
-            <a href="#3">How do I use it?</a><span class="spacer boxFlex"></span><span class="sect">&sect; 3</span>
+            <a href="#3">Как его использовать?</a><span class="spacer boxFlex"></span><span class="sect">&sect; 3</span>
         </li>
     </ul>
 
@@ -198,96 +199,96 @@
 
 <div class="section">
 <h2>
-<a name="1">Doesn't Node already have a module loader?</a>
+<a name="1">Node уже содержит загрузчик модулей?</a>
 <span class="sectionMark">&sect; 1</span>
 </h2>
 
-<p>Yes <a href="http://nodejs.org">Node</a> does. That loader uses the CommonJS module format. The CommonJS module format is <a href="why.html">non-optimal for the browser</a>, and I do not agree with <a href="http://tagneto.blogspot.com/2010/03/commonjs-module-trade-offs.html">some of the trade-offs made in the CommonJS module format</a>. By using RequireJS on the server, you can use one format for all your modules, whether they are running server side or in the browser. That way you can preserve the speed benefits and easy debugging you get with RequireJS in the browser, and not have to worry about extra translation costs for moving between two formats.</p>
+<p>Да, <a href="http://nodejs.org">Node</a> уже содержит загрузчик модулей и этот загрузчик использует модули в формате CommonJS. Однако формат модулей CommonJS <a href="why.html">не оптимален для браузеров</a> и я не согласен с <a href="http://tagneto.blogspot.com/2010/03/commonjs-module-trade-offs.html">некоторыми компромиссами</a>, которые присутствуют в формате CommonJS. При использовании RequireJS на сервере, вы можете использовать один формат для всех ваших модулей, работают ли они на серверной стороне или в браузере. Таким образом, вы можете сохранить преимущества скорости и лёгкой отладки, которые вы получаете с RequireJS в браузере и не придётся беспокоиться о дополнительных расходах на перемещения между двумя форматами.</p>
 
-<p>If you want to use define() for your modules but still run them in Node without needing to run RequireJS on the server, see <a href="#nodeModules">the section below</a> about using <a href="https://github.com/jrburke/amdefine">amdefine</a>.</p>
+<p>Если вы хотите использовать define() для своих модулей, но всё ещё запускаете их в Node без необходимости запускать RequireJS на сервере, смотрите <a href="#nodeModules">секцию ниже</a> об использовании <a href="https://github.com/jrburke/amdefine">amdefine</a>.</p>
 
 </div>
 
 <div class="section">
 <h2>
-<a name="2">Can I use Node modules already written in the CommonJS module format?</a>
+<a name="2">Могу ли я использовать серверные модули, написанные в формате CommonJS?</a>
 <span class="sectionMark">&sect; 2</span></h2>
 
-<p>Yes! The Node adapter for RequireJS, called r.js, will use Node's implementation of require and Node's search paths if the module is not found with the configuration used by RequireJS, so you can continue to use your existing Node-based modules without having to do changes to them.</p>
+<p>Да! Адаптер Node для RequireJS, называемый r.js, будет использовать реализацию зависимостей Node и его пути поиска, если модуль не найден с конфигурацией, используемой RequireJS, так что вы можете продолжать использовать существующие модули на основе Node.js без необходимости делать в них изменения.</p>
 
-<p>RequireJS will use its <a href="api.html#config">Configuration Options</a> first to find modules. If RequireJS cannot find the module with its configuration, it is assumed to be a module that uses Node's type of modules and configuration. So, only configure module locations with RequireJS if they use the RequireJS API. For modules that expect Node's APIs and configuration/paths, just install them with a Node package manager, like <a href="http://npmjs.org/">npm</a>, and do not configure their locations with RequireJS.</p>
+<p>RequireJS сначала будет использовать эти <a href="api.html#config">настройки конфигурации</a> для поиска модулей. Если RequireJS не может найти модуль с его конфигурацией, предполагается, что модуль использует типы модулей и конфигурации Node. Итак, сконфигурируйте только расположение модулей в RequireJS, если они используют RequireJS API. Модули, которые ожидают Node API и его конфигурацию/пути, просто установите с помощью менеджера пакетов Node, такого как <a href="http://npmjs.org/">npm</a>, и не конфигурируйте их расположение в RequireJS.</p>
 
-<p><strong>Best practice</strong>: Use npm to install Node-only packages/modules into the projects <strong>node_modules</strong> directory, but do not configure RequireJS to look inside the node_modules directory. Also avoid using relative module IDs to reference modules that are Node-only modules. So, <strong>do not</strong> do something like <strong>require("./node_modules/foo/foo")</strong>.</p>
+<p><strong>Лучшая практика</strong>: Используйте npm для установки Node-only пакетов/модулей в папку <strong>node_modules</strong> проекта, но не настраивайте RequireJS на поиске в папке node_modules. Также избегайте использования относительных ID модулей для ссылки на Node-only модули. То есть <strong>не</strong> делайте так: <strong>require("./node_modules/foo/foo")</strong>.</p>
 
-<p>Finally, RequireJS in Node can only load modules that are on the local disk -- fetching modules across http, for instance, is not supported at this time.</p>
+<p>Наконец, RequireJS в Node может загружать только модули, находящиеся на локальном диске -- извлечение модулей через http, например, не поддерживается на данный момент.</p>
 
 </div>
 
 <div class="section">
 <h2>
-<a name="3">How do I use it?</a>
+<a name="3">Как его использовать?</a>
 <span class="sectionMark">&sect; 3</span>
 </h2>
 
-<p>There are two ways to get the Node adapter:</p>
+<p>Есть два способа получить адаптер Node:</p>
 
 <h3 id="npm">npm</h3>
-<p>Use <a href="http://npmjs.org">npm</a> to install it:</p>
+<p>Использовать <a href="http://npmjs.org">npm</a> для его установки:</p>
 
 <pre><code>npm install requirejs
 </code></pre>
 
-<p>This option will install the latest release.</p>
+<p>Эта команда установит последнюю версию.</p>
 
-<h3 id="rjs">Download r.js</h3>
+<h3 id="rjs">Загрузить r.js</h3>
 
-<p>If you prefer to not use npm, you can get r.js directly:</p>
-
-<ul>
-    <li>Download r.js from the <a href="download.html#rjs">the download page</a> and place it in your project.</li>
-    <li>Get the source from the <a href="https://github.com/jrburke/r.js">r.js repo</a> and either generate the r.js via "node dist.js", or grab a snapshot from the <strong>dist</strong> directory.</li>
-</ul>
-
-<h3 id="usage">Usage<h3>
-
-<p>These instructions assume an npm installation of 'requirejs'. If you are using the r.js file directly, replace  require('requirejs') with require('./path/to/r.js'). Basic usage is:</p>
+<p>Если вы предпочитаете не использовать npm, можете получить r.js напрямую:</p>
 
 <ul>
-    <li>require('requirejs')</li>
-    <li>Pass the main js file's "require" function in the configuration to requirejs.</li>
+    <li>Загрузить r.js со <a href="download.html#rjs">страницы загрузки</a> и разместить его в своем проекте.</li>
+    <li>Получить исходники из <a href="https://github.com/jrburke/r.js">r.js репозитория</a> и затем сгенерировать r.js командой "node dist.js" или забрать версию из папки <strong>dist</strong>.</li>
 </ul>
 
-<p>Example:</p>
+<h3 id="usage">Использование</h3>
+
+<p>Эти инструкции предполагают установку 'requirejs' с использованием npm. Если вы используете файл r.js напрямую, замените require('requirejs') на require('./путь/к/r.js'). Основное использование:</p>
+
+<ul>
+    <li>require('requirejs')</li>   
+    <li>Передача функции require() главного js файла в конфигурацию requirejs.</li>
+</ul>
+
+<p>Пример:</p>
 
 <pre><code>var requirejs = require('requirejs');
 
 requirejs.config({
-    //Pass the top-level main.js/index.js require
-    //function to requirejs so that node modules
-    //are loaded relative to the top-level JS file.
+    //Передача функции require() с requirejs 
+    //в файле main.js/index.js верхнего уровня для того, чтобы модули node
+    //загружались относительно js-файлов верхнего уровня
     nodeRequire: require
 });
 
 requirejs(['foo', 'bar'],
 function   (foo,   bar) {
-    //foo and bar are loaded according to requirejs
-    //config, but if not found, then node's require
-    //is used to load the module.
+    //foo и bar загружаются в соответствии с конфигурацией
+    //requirejs, но если они не найдены, то для загрузки модуля
+    //используются require() Node.js 
 });
 </code></pre>
 
-<p>Be sure to read the <a href="#2">notes in section 2</a> about configuring RequireJS so that it can load node-only modules installed via npm.</p>
+<p>Убедитесь, что прочитали <a href="#2">примечания в разделе 2</a> о конфигурировании RequireJS, чтобы он мог загружать node-only модули, установленные через npm.</p>
 
-<p>To see a more complete example that loads a module via RequireJS but uses Node-native modules for other things, see the <a href="https://github.com/jrburke/r.js/tree/master/tests/node/embedded">embedded test</a> in the r.js repo.</p>
+<p>Чтобы посмотреть больше полных примеров загрузки модулей через RequireJS, но использующих родные Node модули для других целей, посмотрите на <a href="https://github.com/jrburke/r.js/tree/master/tests/node/embedded">встроенный тест</a> в репозитории r.js.</p>
 
-<p><strong>Note:</strong> <code>requirejs([], function() {})</code> will call the function callback asynchronously in RequireJS 2.1+ (for earlier versions it was synchronously called). However, when running in Node, module loading will be loaded using sync IO calls, and loader plugins should resolve calls to their load method synchronously. This allows sync uses of the requirejs module in node to work via requirejs('stringValue') calls:
+<p><strong>Примечание:</strong> <code>requirejs([], function() {})</code> асинхронно вызовет функцию обратного вызова в RequireJS 2.1+ (для более ранних версий, это был синхронный вызов). Однако, когда запущен Node, модуль будет загружен, используя синхронные IO вызовы и плагины загрузчика должны разрешить вызовы их методов загрузки синхронно. Это позволяет синхронизировать использование модулей requirejs в node для работы через вызовы requirejs('stringValue'):
 
-<pre><code>//Retrieves the module value for 'a' synchronously
+<pre><code>//Получает значение модуля для "а" синхронно
 var a = requirejs('a')</code></pre>
 
-<h3 id="nodeModules">Building node modules with AMD or RequireJS</h3>
+<h3 id="nodeModules">Построение модуля node с AMD или RequireJS</h3>
 
-<p>If you want to code a module so that it works with RequireJS and in Node, without requiring users of your library in Node to use RequireJS, then you can use the <a href="https://github.com/jrburke/amdefine">amdefine</a> package to do this:</p>
+<p>Если вы хотите написать код модуля, работающего с RequireJS и в Node, но без требования для пользователей использующих вашу библиотеку в Node так же использовать RequireJS, то вы можете использовать для этого пакет <a href="https://github.com/jrburke/amdefine">amdefine</a>:</p>
 
 <pre><code>if (typeof define !== 'function') {
     var define = require('amdefine')(module);
@@ -296,48 +297,50 @@ var a = requirejs('a')</code></pre>
 define(function(require) {
     var dep = require('dependency');
 
-    //The value returned from the function is
-    //used as the module export visible to Node.
+    //Значение, возвращаемое функцией
+    //используется как экспорт модуля видимый для Node.
     return function () {};
 });
 </code></pre>
 
-<p>The RequireJS optimizer, as of version 1.0.3, will strip out the use of 'amdefine' above, so it is safe to use this module for your web-based projects too. Just be sure to use <strong>the exact 'amdefine' if() test and contents as shown above</strong>. Differences in spaces/line breaks are allowed. See the <a href="https://github.com/jrburke/amdefine">amdefine project</a> for more information.</p>
+<p>Оптимизоатор RequireJS, начиная с версии 1.0.3, будет вырезать использование amdefine выше, так что можно безопасно использовать этот модуль также для web-based проектов. Просто убедитесь, что используете <strong>строгую проверку 'amdefine' в if() и содержание как показано выше</strong>. Различия в пробелах/переносах строки допускаются. Смотрите <a href="https://github.com/jrburke/amdefine">проект amdefine</a>, чтобы получить больше информации.</p>
 
-<p>If you want to use RequireJS directly to code your module, and then export a module value to node so that it can be used in other Node programs without requiring that app to use RequireJS, you can use the code mentioned above in the <a href="#usage">basic usage section</a> with a few modifications.</p>
+<p>Если вы хотите использовать RequireJS напрямую для написания вашего модуля, и затем экспортировать переменную модуля в node так, чтобы его можно было использовать в других Node программах без требования использовать RequireJS, вы можете применить подход, показанный в следующем примере.</p>
 
-<p>It is best to set the baseUrl specifically to the directory containing the module, so that it works properly when nested inside a node_modules heirarchy. Then use Node's module.exports to export your module value:</p>
+<p>Лучше установить baseUrl конкретно на директорию, содержащую модуль, чтобы он правильно работал, будучи вложенным в иерархию node_modules. Используйте синхронно <code>requirejs('moduleId')</code> для получения модуля, используя конфигурацию и правила в requirejs, затем используйте Node module.exports для экспорта переменной вашего модуля:</p>
 
 <pre><code>var requirejs = require('requirejs');
 
 requirejs.config({
-    //Use node's special variable __dirname to
-    //get the directory containing this file.
-    //Useful if building a library that will
-    //be used in node but does not require the
-    //use of node outside
+    //Используйте специальную переменную нода __dirname для
+    //получения папки, содержащей этот модуль.
+    //Полезно, если делается библиотека, которая
+    //будет использоваться в node, но не будет требовать
+    //использование node за её пределами
     baseUrl: __dirname,
 
-    //Pass the top-level main.js/index.js require
-    //function to requirejs so that node modules
-    //are loaded relative to the top-level JS file.
+    //Передача функции require() с requirejs 
+    //в файле main.js/index.js верхнего уровня для того, чтобы модули node
+    //загружались относительно js-файлов верхнего уровня
     nodeRequire: require
 });
 
-requirejs(['foo', 'bar'],
-function   (foo,   bar) {
-    //foo and bar are loaded according to requirejs
-    //config, but if not found, then node's require
-    //is used to load the module.
+//foo и bar загружаются в соответствии с конфигурацией
+//requirejs и если найдены, считаются AMD модулями.
+//Если они не найдены через requirejs конфиг,
+//то используется require() самого node для их загрузки,
+//и если они найдены, то считаются модулями в формате node. 
+//Примечание: этот синхронный стиль загрузки работает только в node
+var foo = requirejs('foo');
+var bar = requirejs('bar');
 
-    //Now export a value visible to Node.
-    module.exports = function () {};
-});
+//Теперь делаем значение видимым для Node.
+module.exports = function () {};
 </code></pre>
 
-<h3 id="optimizer">Using the optimizer as a node module</h3>
+<h3 id="optimizer">Использование оптимизатора в качестве модуля Node.</h3>
 
-<p>The node module also exposes the RequireJS Optimizer as an <strong>optimize</strong> method for using the <a href="optimization.html">RequireJS optimizer</a> via a function call instead of a command line tool:</p>
+<p>Node модуль также предоставляет оптимизатор RequireJS, как метод <strong>optimize()</strong> для использования <a href="optimization.html">оптимизатора RequireJS</a> через вызов функции вместо вызова через командную строку:</p>
 
 <pre><code>var requirejs = require('requirejs');
 
@@ -348,22 +351,22 @@ var config = {
 };
 
 requirejs.optimize(config, function (buildResponse) {
-    //buildResponse is just a text output of the modules
-    //included. Load the built file for the contents.
-    //Use config.out to get the optimized file contents.
+    //buildResponse это просто текстовый вывод включенных модулей.
+    //Загрузка построенного файла для содержимого.
+    //Используйте config.out для получения оптимизированного содержимого файла.
     var contents = fs.readFileSync(config.out, 'utf8');
 }, function(err) {
-    //optimization err callback
+    //функция обратного вызова ошибки оптимизации
 });
 </code></pre>
 
-<p>This allows you to build other optimization workflows, like <a href="https://github.com/jrburke/r.js/tree/master/build/tests/http">a web builder</a> that can be used if you prefer to always develop with the "one script file included before the &lt;/body&gt; tag" approach. The optimizer running in Node if fairly fast, but for larger projects that do not want to regenerate the build for every browser request, but just if you modify a script that is part of the build. You could use Node's fs.watchFile() to watch files and then trigger the build when a file changes.</p>
+<p>Это позволяет строить другие рабочие процессы оптимизации, такие как <a href="https://github.com/jrburke/r.js/tree/master/build/tests/http">web builder</a>, которые могут быть использованы, если вы предпочитаете всегда разрабатывать по принципу "один файл скрипта включен перед тегом &lt;/body&gt;". Оптимизатор работает в Node довольно быстро, но для больших проектов, для которых не желательно перегенерировать сборку для каждого запроса браузера, а только если вы измените скрипт, который является частью сборки вы можете использовать функцию fs.watchFile() Node'a для наблюдения за файлами и затем вызвать сборку при изменении файла.</p>
 
-<h3 id="feedback">Feedback</h3>
+<h3 id="feedback">Обратная связь</h3>
 
-<p>If you find you have a problem, and want to report it, use the <a href="http://github.com/jrburke/r.js/issues">r.js GitHub Issues page</a>.</p>
+<p>Если вы обнаружили у себя проблему и хотите сообщить об этом, используйте <a href="http://github.com/jrburke/r.js/issues">страницу вопросов r.js на GitHub</a>.</p>
 
-<p>If you want to discuss the RequireJS-Node integration, you can use the <a href="http://groups.google.com/group/requirejs">RequireJS Group</a>.</p>
+<p>Если вы хотите обсудить интеграцию RequireJS-Node, можете использовать <a href="http://groups.google.com/group/requirejs">группу RequireJS</a>.</p>
 </div>
     </div>
     <div id="footer" class="mono">
